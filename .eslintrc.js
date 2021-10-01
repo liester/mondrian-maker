@@ -25,5 +25,7 @@ module.exports = {
     'max-len': 0,
     'linebreak-style': 0,
     'no-underscore-dangle': 0,
+    'react/button-has-type': 0,
+    'jsx-a11y/label-has-associated-control': 0,
   },
 };

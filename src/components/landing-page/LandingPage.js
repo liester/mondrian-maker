@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import Mondrian from 'mondrian-art';
 import SaveSvgAsPng from 'save-svg-as-png';
+import Modal from 'react-modal';
 import FlexContainer from '../common/flex-container/FlexContainer';
 import styles from './LandingPage.module.css';
-
-// import { loadStripe } from '@stripe/stripe-js'
-// import {
-//     Elements
-// } from '@stripe/react-stripe-js'
-// import CheckoutForm from './checkout-form/CheckoutForm'
+import CheckoutForm from '../checkout-form/CheckoutForm';
 
 const mondrianContainerId = 'my-mondrian';
 
-// const stripePromise = loadStripe('pk_test_wRF6cGM6D9azfHyN4dWcDXPG');
-
 const LandingPage = () => {
-  // const history = useHistory();
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(true);
   let mondrian;
 
   const downloadMondrian = () => {
@@ -36,17 +30,39 @@ const LandingPage = () => {
     mondrian.generate();
   }, []);
 
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      height: '600px',
+      width: '600px',
+    },
+  };
   return (
-    <FlexContainer justifyContent="center" flexDirection="column" alignItems="center" flex={1}>
+    <FlexContainer justifyContent="center" alignItems="center" flex={1}>
       <div className="mondrianContainer">
         <FlexContainer justifyContent="center">My Mondrian</FlexContainer>
         <div id="my-mondrian" />
         <FlexContainer justifyContent="center" className={styles.controls}>
           <button type="button" onClick={downloadMondrian}>Download</button>
           <button type="button" style={{ marginLeft: '1em' }} onClick={() => mondrian.generate()}>Generate</button>
-          <button type="button" style={{ marginLeft: '1em' }} onClick={() => mondrian.generate()}>Order</button>
+          <button type="button" style={{ marginLeft: '1em' }} onClick={() => setIsPaymentModalOpen(true)}>Order</button>
         </FlexContainer>
       </div>
+      <Modal
+        isOpen={isPaymentModalOpen}
+        style={customStyles}
+        onRequestClose={() => setIsPaymentModalOpen(false)}
+        contentLabel="Example Modal"
+      >
+        <FlexContainer className={styles.stripeContainer} alignItems="stretch">
+          <CheckoutForm />
+        </FlexContainer>
+      </Modal>
     </FlexContainer>
   );
   // return (
