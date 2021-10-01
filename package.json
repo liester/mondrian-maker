@@ -1,0 +1,61 @@
+{
+  "name": "bingo-mania",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.1",
+    "bootstrap": "4.5.0",
+    "classnames": "^2.3.1",
+    "lodash": "^4.17.21",
+    "moment": "2.27.0",
+    "mondrian-art": "^0.1.0",
+    "node-sass": "6.0.1",
+    "prop-types": "15.7.2",
+    "react": "^16.13.1",
+    "react-bootstrap": "1.0.1",
+    "react-dom": "^16.13.1",
+    "react-feather": "^2.0.9",
+    "@stripe/react-stripe-js": "^1.5.0",
+    "@stripe/stripe-js": "^1.18.0",
+    "react-redux": "7.2.0",
+    "react-router-dom": "^5.2.1",
+    "react-scripts": "4.0.3",
+    "redux": "4.0.5",
+    "redux-thunk": "2.3.0",
+    "save-svg-as-png": "^1.4.17",
+    "socket.io-client": "4.2.0"
+  },
+  "scripts": {
+    "start-client": "react-scripts start",
+    "build": "react-scripts build && (cd server && npm install)",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start": "cd server && npm start"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  }
+}

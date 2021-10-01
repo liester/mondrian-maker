@@ -1,0 +1,18 @@
+.currentGames {
+    width: 350px;
+    border-right: solid #007bff 5px;
+}
+
+.currentGames.collapsed{
+    width: 80px;
+    border-right: solid #007bff 5px;
+}
+
+.title {
+    text-align: center;
+    font-size: 40px;
+}
+
+.newGame {
+    padding-bottom: 10px;
+}

@@ -1,0 +1,14 @@
+.header {
+  background-color: #007bff;
+  height: 40px;
+}
+
+.backButton {
+  cursor: pointer;
+}
+
+.userType {
+  padding-right: 20px;
+  color: white;
+  font-size: xx-large;
+}
