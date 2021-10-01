@@ -11,34 +11,10 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe('pk_test_wRF6cGM6D9azfHyN4dWcDXPG');
 
-const CARD_OPTIONS = {
-  iconStyle: 'solid',
-  style: {
-    base: {
-      iconColor: '#c4f0ff',
-      color: '#fff',
-      fontWeight: 500,
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
-      fontSmoothing: 'antialiased',
-      ':-webkit-autofill': {
-        color: '#fce883',
-      },
-      '::placeholder': {
-        color: '#87bbfd',
-      },
-    },
-    invalid: {
-      iconColor: '#ffc7ee',
-      color: '#ffc7ee',
-    },
-  },
-};
-
 // eslint-disable-next-line react/prop-types
 const CardField = ({ onChange }) => (
   <div className="FormRow">
-    <CardElement options={CARD_OPTIONS} onChange={onChange} />
+    <CardElement onChange={onChange} />
   </div>
 );
 
@@ -132,12 +108,15 @@ const StripCheckoutForm = () => {
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [billingDetails, setBillingDetails] = useState({
-    address: '12 Temple Way',
     email: 'levi.liester+test@gmail.com',
     phone: '4022140959',
     name: 'Levi L',
-    // state: 'Nebraska',
-    // zipCode: '68022'
+  });
+  const [address, setAddress] = useState({
+    line1: '12 Temple Way',
+    state: 'Nebraska',
+    postal_code: '68022',
+    city: 'Omaha',
   });
 
   const handleSubmit = async (event) => {
@@ -161,7 +140,7 @@ const StripCheckoutForm = () => {
     const payload = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
-      billing_details: billingDetails,
+      billing_details: { ...billingDetails, address },
     });
 
     setProcessing(false);
@@ -243,9 +222,19 @@ const StripCheckoutForm = () => {
             id="address"
             placeholder="42 Wallaby Way, Sydney"
             required
-            value={billingDetails.address}
+            value={address.line1}
             onChange={(e) => {
-              setBillingDetails({ ...billingDetails, address1: e.target.value });
+              setAddress({ ...address, line1: e.target.value });
+            }}
+          />
+          <Field
+            label="City"
+            id="city"
+            placeholder="Omaha"
+            required
+            value={address.city}
+            onChange={(e) => {
+              setAddress({ ...address, city: e.target.value });
             }}
           />
           <Field
@@ -253,19 +242,19 @@ const StripCheckoutForm = () => {
             id="state"
             placeholder="Nebraska"
             required
-            value={billingDetails.state}
+            value={address.state}
             onChange={(e) => {
-              setBillingDetails({ ...billingDetails, state: e.target.value });
+              setAddress({ ...address, state: e.target.value });
             }}
           />
           <Field
-            label="Zip Code"
-            id="zipCode"
+            label="Postal Code"
+            id="postal_code"
             placeholder="68122"
             required
-            value={billingDetails.zipCode}
+            value={address.postal_code}
             onChange={(e) => {
-              setBillingDetails({ ...billingDetails, zipCode: e.target.value });
+              setAddress({ ...address, postal_code: e.target.value });
             }}
           />
         </fieldset>
