@@ -10,7 +10,7 @@ import CheckoutForm from '../checkout-form/CheckoutForm';
 const mondrianContainerId = 'my-mondrian';
 
 const LandingPage = () => {
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(true);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState();
   let mondrian;
 
   const downloadMondrian = () => {
