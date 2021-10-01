@@ -5,8 +5,7 @@ const express = require('express');
 
 const app = express();
 
-const BingoRoutes = require('./bingo.routes');
-const SocketRoutes = require('./socket.routes');
+const StripeRoutes = require('./stripe.routes');
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,12 +14,11 @@ app.use(express.static(buildPath));
 app.use(cors());
 app.use(express.json());
 
-const server = app.listen(PORT, () => {
+StripeRoutes(app);
+
+app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
-
-const io = SocketRoutes(server);
-BingoRoutes(app, io);
 
 // Madness required for client side react router
 app.get('/*', (req, res) => {
