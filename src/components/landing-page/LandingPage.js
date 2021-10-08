@@ -57,20 +57,14 @@ const LandingPage = () => {
         isOpen={isPaymentModalOpen}
         style={customStyles}
         onRequestClose={() => setIsPaymentModalOpen(false)}
-        contentLabel="Example Modal"
+        contentLabel="Order Form"
       >
         <FlexContainer className={styles.stripeContainer} alignItems="stretch">
-          <CheckoutForm />
+          <CheckoutForm onClose={() => setIsPaymentModalOpen(false)} />
         </FlexContainer>
       </Modal>
     </FlexContainer>
   );
-  // return (
-  //   <FlexContainer justifyContent="center" flexDirection="column" alignItems="center" flex={1}>
-  //     <Button onClick={() => history.push('/game')} className={styles.megaButton}>Join Game</Button>
-  //     <Button onClick={() => history.push('/host')} className={styles.megaButton}>Host Game</Button>
-  //   </FlexContainer>
-  // );
 };
 
 export default LandingPage;

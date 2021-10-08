@@ -1,7 +1,8 @@
 const Stripe = require('stripe');
 
-const stripe = Stripe('pk_test_wRF6cGM6D9azfHyN4dWcDXPG');// FIXME This needs to be a secret key, not public, get from stripe account
-const { MondrianOrder } = require('./database');
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripe = Stripe(stripeSecretKey);// FIXME This needs to be a secret key, not public, get from stripe account
+// const { MondrianOrder } = require('./database');
 
 const generateResponse = (intent) => {
   // Note that if your API version is before 2019-02-11, 'requires_action'

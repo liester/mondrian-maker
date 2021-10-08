@@ -90,7 +90,7 @@ const ErrorMessage = ({ children }) => (
   </div>
 );
 
-const StripCheckoutForm = () => {
+const StripCheckoutForm = ({ onClose }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState(null);
@@ -108,6 +108,34 @@ const StripCheckoutForm = () => {
     postal_code: '68022',
     city: 'Omaha',
   });
+
+  const handleStripeJsResult = (result) => {
+    if (result.error) {
+      // Show error in payment form
+    } else {
+      // The card action has been handled
+      // The PaymentIntent can be confirmed again on the server
+      fetch('/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_intent_id: result.paymentIntent.id }),
+        // eslint-disable-next-line no-use-before-define
+      }).then((confirmResult) => confirmResult.json()).then(handleServerResponse);
+    }
+  };
+
+  const handleServerResponse = (response) => {
+    if (response.error) {
+      // Show error from server on payment form
+    } else if (response.requires_action) {
+      // Use Stripe.js to handle required card action
+      stripe.handleCardAction(
+        response.payment_intent_client_secret,
+      ).then(handleStripeJsResult);
+    } else {
+      // Show success message
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -138,35 +166,11 @@ const StripCheckoutForm = () => {
     if (payload.error) {
       setError(payload.error);
     } else {
-      setPaymentMethod(payload.paymentMethod);
-    }
-  };
-
-  const handleStripeJsResult = (result) => {
-    if (result.error) {
-      // Show error in payment form
-    } else {
-      // The card action has been handled
-      // The PaymentIntent can be confirmed again on the server
-      fetch('/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payment_intent_id: result.paymentIntent.id }),
-        // eslint-disable-next-line no-use-before-define
-      }).then((confirmResult) => confirmResult.json()).then(handleServerResponse);
-    }
-  };
-
-  const handleServerResponse = (response) => {
-    if (response.error) {
-      // Show error from server on payment form
-    } else if (response.requires_action) {
-      // Use Stripe.js to handle required card action
-      stripe.handleCardAction(
-        response.payment_intent_client_secret,
-      ).then(handleStripeJsResult);
-    } else {
-      // Show success message
+      axios.post('/pay', { payment_method_id: payload.paymentMethod.id })
+        .then(({ data }) => {
+          handleServerResponse(data);
+          setPaymentMethod(payload.paymentMethod);
+        });
     }
   };
 
@@ -177,18 +181,12 @@ const StripCheckoutForm = () => {
           Payment successful
         </div>
         <div className="ResultMessage">
-          Thanks for trying Stripe Elements. No money was charged, but we
-          generated a PaymentMethod:
+          Thanks for ordering a personalized Mondrian.
+          Order Number:
           {' '}
           {paymentMethod.id}
         </div>
-        <Button onClick={() => {
-          axios.post('/pay', { payment_method_id: paymentMethod.id })
-            .then(({ data }) => {
-              handleServerResponse(data);
-            });
-        }}
-        >
+        <Button onClick={onClose}>
           Finish
         </Button>
       </div>
@@ -289,9 +287,16 @@ const StripCheckoutForm = () => {
       </form>
     );
 };
-const CheckoutForm = () => (
+
+StripCheckoutForm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
+const CheckoutForm = ({ onClose }) => (
   <Elements stripe={stripePromise}>
-    <StripCheckoutForm />
+    <StripCheckoutForm onClose={onClose} />
   </Elements>
 );
+CheckoutForm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 export default CheckoutForm;
