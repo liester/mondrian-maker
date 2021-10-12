@@ -49,14 +49,18 @@ const Field = ({
 
 Field.propTypes = {
   label: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   // eslint-disable-next-line react/require-default-props
-  type: PropTypes.shape(),
+  type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
-  autoComplete: PropTypes.bool.isRequired,
+  autoComplete: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+};
+
+Field.defaultProps = {
+  autoComplete: '',
 };
 
 // eslint-disable-next-line react/prop-types
@@ -233,6 +237,7 @@ const StripCheckoutForm = ({ onClose }) => {
           <Field
             label="Address"
             id="address"
+            type="text"
             placeholder="42 Wallaby Way, Sydney"
             required
             value={address.line1}
@@ -244,6 +249,7 @@ const StripCheckoutForm = ({ onClose }) => {
             label="City"
             id="city"
             placeholder="Omaha"
+            type="text"
             required
             value={address.city}
             onChange={(e) => {
@@ -254,6 +260,7 @@ const StripCheckoutForm = ({ onClose }) => {
             label="State"
             id="state"
             placeholder="Nebraska"
+            type="text"
             required
             value={address.state}
             onChange={(e) => {
@@ -264,6 +271,7 @@ const StripCheckoutForm = ({ onClose }) => {
             label="Postal Code"
             id="postal_code"
             placeholder="68122"
+            type="text"
             required
             value={address.postal_code}
             onChange={(e) => {
