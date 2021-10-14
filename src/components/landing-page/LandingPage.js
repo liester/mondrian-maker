@@ -14,7 +14,7 @@ let mondrian;
 
 const LandingPage = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState();
-  const [mondrianDataUri, setMondrianDataUri] = useState();
+  const [successfulOrder, setSuccessfulOrder] = useState();
 
   const downloadMondrian = () => {
     SaveSvgAsPng.saveSvgAsPng(document.getElementById(mondrianContainerId).children[0], 'my-mondrian.png');
@@ -51,12 +51,17 @@ const LandingPage = () => {
 
     axios.post('/saveMondrian', { mondrianDataUri: dataURI })
       .then(() => {
-        setMondrianDataUri(dataURI);
+        setSuccessfulOrder(true);
+      })
+      .catch((e) => {
+        setSuccessfulOrder(false);
+        console.log(e);
       });
   };
   return (
     <FlexContainer justifyContent="center" alignItems="center" flex={1}>
       <div className="mondrianContainer">
+        {successfulOrder === false && <div>There was an issue.  Do not Panic</div>}
         <div id="my-mondrian" />
         <FlexContainer justifyContent="center" className={styles.controls}>
           <Button type="button" onClick={downloadMondrian}>Download</Button>
@@ -73,10 +78,6 @@ const LandingPage = () => {
           <Button type="button" style={{ marginLeft: '1em' }} onClick={() => sendMondrianToServer()}>Send It!</Button>
         </FlexContainer>
       </div>
-      <FlexContainer>
-        <div>mondrain data uri</div>
-        {mondrianDataUri && <img alt="clone data" src={mondrianDataUri} style={{ width: 300, height: 300 }} />}
-      </FlexContainer>
       <Modal
         isOpen={isPaymentModalOpen}
         style={customStyles}
