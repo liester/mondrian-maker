@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
 import Mondrian from 'mondrian-art';
 import SaveSvgAsPng from 'save-svg-as-png';
 import Modal from 'react-modal';
@@ -7,14 +6,12 @@ import { Button } from 'react-bootstrap';
 import FlexContainer from '../common/flex-container/FlexContainer';
 import styles from './LandingPage.module.css';
 import CheckoutForm from '../checkout-form/CheckoutForm';
-import axios from '../../utils/axios';
 
 const mondrianContainerId = 'my-mondrian';
 let mondrian;
 
 const LandingPage = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState();
-  const [successfulOrder, setSuccessfulOrder] = useState();
 
   const downloadMondrian = () => {
     SaveSvgAsPng.saveSvgAsPng(document.getElementById(mondrianContainerId).children[0], 'my-mondrian.png');
@@ -46,22 +43,9 @@ const LandingPage = () => {
     },
   };
 
-  const sendMondrianToServer = async () => {
-    const dataURI = await SaveSvgAsPng.svgAsPngUri(document.getElementById(mondrianContainerId).children[0]);
-
-    axios.post('/saveMondrian', { mondrianDataUri: dataURI })
-      .then(() => {
-        setSuccessfulOrder(true);
-      })
-      .catch((e) => {
-        setSuccessfulOrder(false);
-        console.log(e);
-      });
-  };
   return (
     <FlexContainer justifyContent="center" alignItems="center" flex={1}>
       <div className="mondrianContainer">
-        {successfulOrder === false && <div>There was an issue.  Do not Panic</div>}
         <div id="my-mondrian" />
         <FlexContainer justifyContent="center" className={styles.controls}>
           <Button type="button" onClick={downloadMondrian}>Download</Button>
@@ -75,7 +59,6 @@ const LandingPage = () => {
             Generate
           </Button>
           <Button type="button" style={{ marginLeft: '1em' }} onClick={() => setIsPaymentModalOpen(true)}>Order</Button>
-          <Button type="button" style={{ marginLeft: '1em' }} onClick={() => sendMondrianToServer()}>Send It!</Button>
         </FlexContainer>
       </div>
       <Modal

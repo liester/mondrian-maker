@@ -6,7 +6,6 @@ const express = require('express');
 const app = express();
 
 const StripeRoutes = require('./stripe.routes');
-const MondrianRoutes = require('./mondrian.routes');
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,8 +15,6 @@ app.use(cors());
 app.use(express.json());
 
 StripeRoutes(app);
-// Uncomment for testing.  I don't want to world saving images for funzies
-MondrianRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

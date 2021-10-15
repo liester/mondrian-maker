@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const BingoGame = require('./bingo-game');
+const Mondrian = require('./mondrian');
 
 const uri = process.env.MONGO_DB_CONNECTION_URL;
 
@@ -12,5 +12,5 @@ connection.once('open', () => {
 });
 
 module.exports = {
-  BingoGame,
+  Mondrian,
 };

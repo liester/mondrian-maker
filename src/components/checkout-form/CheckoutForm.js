@@ -9,6 +9,7 @@ import './CheckoutForm.css';
 import PropTypes from 'prop-types';
 import { loadStripe } from '@stripe/stripe-js';
 import { Button } from 'react-bootstrap';
+import SaveSvgAsPng from 'save-svg-as-png';
 import axios from '../../utils/axios';
 
 const stripePromise = loadStripe('pk_test_wRF6cGM6D9azfHyN4dWcDXPG');
@@ -113,7 +114,7 @@ const StripCheckoutForm = ({ onClose }) => {
     city: 'Omaha',
   });
 
-  const handleStripeJsResult = (result) => {
+  const handleStripeJsResult = (result, mondrianId) => {
     if (result.error) {
       // Show error in payment form
     } else {
@@ -122,28 +123,31 @@ const StripCheckoutForm = ({ onClose }) => {
       fetch('/pay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payment_intent_id: result.paymentIntent.id }),
+        body: JSON.stringify({ payment_intent_id: result.paymentIntent.id, mondrianId }),
         // eslint-disable-next-line no-use-before-define
       }).then((confirmResult) => confirmResult.json()).then(handleServerResponse);
     }
   };
 
-  const handleServerResponse = (response) => {
+  const handleServerResponse = async (response) => {
     if (response.error) {
       // Show error from server on payment form
     } else if (response.requires_action) {
       // Use Stripe.js to handle required card action
       stripe.handleCardAction(
         response.payment_intent_client_secret,
-      ).then(handleStripeJsResult);
+      ).then((result) => {
+        handleStripeJsResult(result, response.mondrianId);
+      });
     } else {
       // Show success message
     }
   };
 
+  const mondrianContainerId = 'my-mondrian';
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -165,15 +169,18 @@ const StripCheckoutForm = ({ onClose }) => {
       billing_details: { ...billingDetails, address },
     });
 
-    setProcessing(false);
-
     if (payload.error) {
       setError(payload.error);
+      setProcessing(false);
     } else {
-      axios.post('/pay', { payment_method_id: payload.paymentMethod.id })
+      const mondrianDataUri = await SaveSvgAsPng.svgAsPngUri(document.getElementById(mondrianContainerId).children[0]);
+      axios.post('/pay', {
+        payment_method_id: payload.paymentMethod.id, mondrianDataUri, billingDetails, address,
+      })
         .then(({ data }) => {
           handleServerResponse(data);
           setPaymentMethod(payload.paymentMethod);
+          setProcessing(false);
         });
     }
   };
@@ -214,7 +221,7 @@ const StripCheckoutForm = ({ onClose }) => {
             label="Email"
             id="email"
             type="email"
-            placeholder="janedoe@gmail.com"
+            placeholder="email@example.com"
             required
             autoComplete="email"
             value={billingDetails.email}
