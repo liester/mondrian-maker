@@ -23,8 +23,8 @@ const LandingPage = () => {
   useEffect(() => {
     mondrian = new Mondrian({
       container: document.getElementById(mondrianContainerId),
-      width: 900,
-      height: 900,
+      width: 800,
+      height: 800,
       mondrian: {
         style: 'classic',
       },

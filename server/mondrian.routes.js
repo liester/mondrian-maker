@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Recipient } = require('mailersend');
 const { EmailParams } = require('mailersend');
-// const { Attachment } = require('mailersend');
+const { Attachment } = require('mailersend');
 const MailerSend = require('mailersend');
 
 const mailersend = new MailerSend({
@@ -15,38 +15,25 @@ module.exports = (app) => {
       if (mondrianDataUri) {
         const data = mondrianDataUri.split(',')[1];
         const buffer = Buffer.from(data, 'base64');
-        // fs.writeFileSync('./secondDemo.png', buf);
         fs.writeFileSync('mondrian-image.png', buffer);
-        // const attachments = [
-        //   new Attachment(buffer),
-        // ];
-
-        // const recipients = [
-        //   new Recipient('levi.liester@gmail.com', 'Levi Liester'),
-        // ];
-        // const emailParams = new EmailParams()
-        //   .setFrom('levi.liester@gmail.com')
-        //   .setFromName('Mondrian Maker')
-        //   .setRecipients(recipients)
-        //   // .setAttachments(attachments)
-        //   .setSubject('Your Order is Processing')
-        //   .setHtml('Thank you for ordering your very own Mondrian')
-        //   .setText('Mondrian Maker is on the job!');
-        //
-        // const result = await mailersend.send(emailParams);
-        const recipients = [
-          new Recipient('levi.liester@gmail.com', 'levi recipient'),
+        const attachments = [
+          new Attachment(fs.readFileSync('mondrian-image.png', { encoding: 'base64' }), 'mondrian-to-print.png'),
         ];
 
+        const recipients = [
+          new Recipient('levi.liester@gmail.com', 'Levi Liester'),
+        ];
         const emailParams = new EmailParams()
-          .setFrom('levi.liester@gmail.com')
-          .setFromName('Levi sender')
+          .setFrom('levi.liester@goingsolo.rocks')
+          .setFromName('Mondrian Maker')
           .setRecipients(recipients)
-          .setSubject('No Subject')
-          .setHtml('This is the HTML content')
-          .setText('This is the text content');
+          .setAttachments(attachments)
+          .setSubject('Your Order is Processing')
+          .setHtml('Thank you for ordering your very own Mondrian')
+          .setText('Mondrian Maker is on the job!');
 
         const result = await mailersend.send(emailParams);
+        console.log(JSON.stringify(result));
         response.send(JSON.stringify(result));
       } else {
         console.error('mondrian data uri not found');
