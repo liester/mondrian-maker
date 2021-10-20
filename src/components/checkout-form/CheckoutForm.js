@@ -103,15 +103,15 @@ const StripCheckoutForm = ({ onClose }) => {
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [billingDetails, setBillingDetails] = useState({
-    email: 'levi.liester+test@gmail.com',
-    phone: '4022140959',
-    name: 'Levi L',
+    email: 'moneyroad@example.com',
+    phone: '1235550987',
+    name: 'Zenith Oshkosh',
   });
   const [address, setAddress] = useState({
     line1: '12 Temple Way',
-    state: 'Nebraska',
-    postal_code: '68022',
-    city: 'Omaha',
+    state: 'Aslan's Country',
+    postal_code: '12345',
+    city: 'Narnia',
   });
 
   const handleStripeJsResult = (result, mondrianId) => {
