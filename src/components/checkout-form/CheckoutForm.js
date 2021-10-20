@@ -109,7 +109,7 @@ const StripCheckoutForm = ({ onClose }) => {
   });
   const [address, setAddress] = useState({
     line1: '12 Temple Way',
-    state: 'Aslan's Country',
+    state: 'Aslan Country',
     postal_code: '12345',
     city: 'Narnia',
   });
