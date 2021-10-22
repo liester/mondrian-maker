@@ -40,12 +40,12 @@ const generateResponse = async (intent, billingDetails, address, mondrianDataUri
         buyerName: billingDetails.name,
         buyerAddress: `${address.line1} ${address.city}, ${address.state} ${address.postal_code}`,
         paymentSuccessful: true,
-        paymentId: intent.payment_method,
+        paymentId: intent.id, // This is what shows up in stripe under a payment description
         phoneNumber: billingDetails.phone,
         mondrianDataUri,
       });
     }
-    await mondrianService.orderMondrian(mondrian.mondrianDataUri, billingDetails, address, intent.payment_method, mondrianPriceInCents);
+    await mondrianService.orderMondrian(mondrian.mondrianDataUri, billingDetails, address, intent.id, mondrianPriceInCents);
     return {
       success: true,
     };

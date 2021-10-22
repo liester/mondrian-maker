@@ -57,7 +57,9 @@ module.exports = {
         return 'success';
       }
       return r.json();
-    }).catch((e) => console.log(e));
+    }).catch((e) => {
+      console.log(paymentId, billingDetails, address, e);
+    });
     console.log(JSON.stringify(result));
   },
 };
