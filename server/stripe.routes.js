@@ -6,7 +6,7 @@ const mondrianService = require('./mondrian.service');
 
 const { Mondrian } = require('./database');
 
-const mondrianPriceInCents = 499;
+const mondrianPriceInCents = 100;
 
 const generateResponse = async (intent, billingDetails, address, mondrianDataUri, mondrianId) => {
   if (

@@ -292,7 +292,7 @@ const StripCheckoutForm = ({ onClose }) => {
           </fieldset>
           {orderingError && <ErrorMessage>{orderingError}</ErrorMessage>}
           <SubmitButton processing={processing} error={orderingError} disabled={!stripe}>
-            Order $4.99
+            Order $1
           </SubmitButton>
         </form>
       </>
