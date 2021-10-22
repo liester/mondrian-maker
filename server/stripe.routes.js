@@ -6,6 +6,8 @@ const mondrianService = require('./mondrian.service');
 
 const { Mondrian } = require('./database');
 
+const mondrianPriceInCents = 499;
+
 const generateResponse = async (intent, billingDetails, address, mondrianDataUri, mondrianId) => {
   if (
     intent.status === 'requires_action'
@@ -42,7 +44,7 @@ const generateResponse = async (intent, billingDetails, address, mondrianDataUri
         mondrianDataUri,
       });
     }
-    await mondrianService.orderMondrian(mondrian.mondrianDataUri, billingDetails, address, intent.payment_method);
+    await mondrianService.orderMondrian(mondrian.mondrianDataUri, billingDetails, address, intent.payment_method, mondrianPriceInCents);
     return {
       success: true,
     };
@@ -62,7 +64,7 @@ module.exports = (app) => {
         // Create the PaymentIntent
         intent = await stripe.paymentIntents.create({
           payment_method: request.body.payment_method_id,
-          amount: 499,
+          amount: mondrianPriceInCents,
           currency: 'usd',
           // confirmation_method: 'manual', // Not sure what the difference is here: https://stripe.com/docs/api/payment_intents/object#payment_intent_object-confirmation_method
           confirm: true,
