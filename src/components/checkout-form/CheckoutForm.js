@@ -117,32 +117,18 @@ const StripCheckoutForm = ({ onClose }) => {
     city: '',
   });
 
-  const handleStripeJsResult = (result, mondrianId) => {
-    if (result.error) {
-      // Show error in payment form
-    } else {
-      // The card action has been handled
-      // The PaymentIntent can be confirmed again on the server
-      fetch('/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payment_intent_id: result.paymentIntent.id, mondrianId }),
-        // eslint-disable-next-line no-use-before-define
-      }).then((confirmResult) => confirmResult.json()).then(handleServerResponse);
-    }
-  };
-
   const handleServerResponse = async (response) => {
     if (response.error) {
       // Show error from server on payment form
       setOrderingError(response.error);
     } else if (response.requires_action) {
       // Use Stripe.js to handle required card action
-      stripe.handleCardAction(
-        response.payment_intent_client_secret,
-      ).then((result) => {
-        handleStripeJsResult(result, response.mondrianId);
-      });
+      // stripe.handleCardAction(// This does not handle action required. Soooooo there's that
+      //   response.payment_intent_client_secret,
+      // ).then((result) => {
+      //   handleStripeJsResult(result, response.mondrianId);
+      // });
+      setOrderingError(response.error);
     } else {
       // Show success message
     }
