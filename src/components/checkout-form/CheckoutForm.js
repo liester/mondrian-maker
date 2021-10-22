@@ -12,7 +12,9 @@ import { Button } from 'react-bootstrap';
 import SaveSvgAsPng from 'save-svg-as-png';
 import axios from '../../utils/axios';
 
-const stripePromise = loadStripe('pk_test_wRF6cGM6D9azfHyN4dWcDXPG');
+const isTest = process.env.NODE_ENV !== 'production';
+const stripePublishableKey = isTest ? 'pk_test_wRF6cGM6D9azfHyN4dWcDXPG' : 'pk_live_hh3fhcrVUJck5Tiyu3eZfKEF';
+const stripePromise = loadStripe(stripePublishableKey);
 
 // eslint-disable-next-line react/prop-types
 const CardField = ({ onChange }) => (
@@ -203,103 +205,106 @@ const StripCheckoutForm = ({ onClose }) => {
       </div>
     )
     : (
-      <form className="Form" onSubmit={handleSubmit}>
-        <fieldset className="FormGroup">
-          <Field
-            label="Name"
-            id="name"
-            type="text"
-            placeholder="Jane Doe"
-            required
-            autoComplete="name"
-            value={billingDetails.name}
-            onChange={(e) => {
-              setBillingDetails({ ...billingDetails, name: e.target.value });
-            }}
-          />
-          <Field
-            label="Email"
-            id="email"
-            type="email"
-            placeholder="email@example.com"
-            required
-            autoComplete="email"
-            value={billingDetails.email}
-            onChange={(e) => {
-              setBillingDetails({ ...billingDetails, email: e.target.value });
-            }}
-          />
-          <Field
-            label="Phone"
-            id="phone"
-            type="tel"
-            placeholder="(941) 555-0123"
-            required
-            autoComplete="tel"
-            value={billingDetails.phone}
-            onChange={(e) => {
-              setBillingDetails({ ...billingDetails, phone: e.target.value });
-            }}
-          />
-          <Field
-            label="Address"
-            id="address"
-            type="text"
-            placeholder="42 Wallaby Way, Sydney"
-            required
-            value={address.line1}
-            onChange={(e) => {
-              setAddress({ ...address, line1: e.target.value });
-            }}
-          />
-          <Field
-            label="City"
-            id="city"
-            placeholder="Omaha"
-            type="text"
-            required
-            value={address.city}
-            onChange={(e) => {
-              setAddress({ ...address, city: e.target.value });
-            }}
-          />
-          <Field
-            label="State"
-            id="state"
-            placeholder="Nebraska"
-            type="text"
-            required
-            value={address.state}
-            onChange={(e) => {
-              setAddress({ ...address, state: e.target.value });
-            }}
-          />
-          <Field
-            label="Postal Code"
-            id="postal_code"
-            placeholder="68122"
-            type="text"
-            required
-            value={address.postal_code}
-            onChange={(e) => {
-              setAddress({ ...address, postal_code: e.target.value });
-            }}
-          />
-        </fieldset>
-        <fieldset className="FormGroup">
-          <CardField
-            onChange={(e) => {
-              console.log(e);
-              setError(e.error);
-              setCardComplete(e.complete);
-            }}
-          />
-        </fieldset>
-        {error && <ErrorMessage>{error.message}</ErrorMessage>}
-        <SubmitButton processing={processing} error={error} disabled={!stripe}>
-          Order $9.99
-        </SubmitButton>
-      </form>
+      <>
+        {isTest && <div style={{ textAlign: 'center', color: 'red' }}>Test Environment</div>}
+        <form className="Form" onSubmit={handleSubmit}>
+          <fieldset className="FormGroup">
+            <Field
+              label="Name"
+              id="name"
+              type="text"
+              placeholder="Jane Doe"
+              required
+              autoComplete="name"
+              value={billingDetails.name}
+              onChange={(e) => {
+                setBillingDetails({ ...billingDetails, name: e.target.value });
+              }}
+            />
+            <Field
+              label="Email"
+              id="email"
+              type="email"
+              placeholder="email@example.com"
+              required
+              autoComplete="email"
+              value={billingDetails.email}
+              onChange={(e) => {
+                setBillingDetails({ ...billingDetails, email: e.target.value });
+              }}
+            />
+            <Field
+              label="Phone"
+              id="phone"
+              type="tel"
+              placeholder="(941) 555-0123"
+              required
+              autoComplete="tel"
+              value={billingDetails.phone}
+              onChange={(e) => {
+                setBillingDetails({ ...billingDetails, phone: e.target.value });
+              }}
+            />
+            <Field
+              label="Address"
+              id="address"
+              type="text"
+              placeholder="42 Wallaby Way, Sydney"
+              required
+              value={address.line1}
+              onChange={(e) => {
+                setAddress({ ...address, line1: e.target.value });
+              }}
+            />
+            <Field
+              label="City"
+              id="city"
+              placeholder="Omaha"
+              type="text"
+              required
+              value={address.city}
+              onChange={(e) => {
+                setAddress({ ...address, city: e.target.value });
+              }}
+            />
+            <Field
+              label="State"
+              id="state"
+              placeholder="Nebraska"
+              type="text"
+              required
+              value={address.state}
+              onChange={(e) => {
+                setAddress({ ...address, state: e.target.value });
+              }}
+            />
+            <Field
+              label="Postal Code"
+              id="postal_code"
+              placeholder="68122"
+              type="text"
+              required
+              value={address.postal_code}
+              onChange={(e) => {
+                setAddress({ ...address, postal_code: e.target.value });
+              }}
+            />
+          </fieldset>
+          <fieldset className="FormGroup">
+            <CardField
+              onChange={(e) => {
+                console.log(e);
+                setError(e.error);
+                setCardComplete(e.complete);
+              }}
+            />
+          </fieldset>
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
+          <SubmitButton processing={processing} error={error} disabled={!stripe}>
+            Order $4.99
+          </SubmitButton>
+        </form>
+      </>
     );
 };
 

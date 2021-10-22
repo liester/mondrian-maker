@@ -68,7 +68,7 @@ const LandingPage = () => {
         contentLabel="Order Form"
         ariaHideApp={false}
       >
-        <FlexContainer className={styles.stripeContainer} alignItems="stretch">
+        <FlexContainer alignItems="stretch" flexDirection="column">
           <CheckoutForm onClose={() => setIsPaymentModalOpen(false)} />
         </FlexContainer>
       </Modal>

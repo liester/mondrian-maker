@@ -62,7 +62,7 @@ module.exports = (app) => {
         // Create the PaymentIntent
         intent = await stripe.paymentIntents.create({
           payment_method: request.body.payment_method_id,
-          amount: 1499,
+          amount: 499,
           currency: 'usd',
           // confirmation_method: 'manual', // Not sure what the difference is here: https://stripe.com/docs/api/payment_intents/object#payment_intent_object-confirmation_method
           confirm: true,
