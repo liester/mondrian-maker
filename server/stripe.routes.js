@@ -42,7 +42,7 @@ const generateResponse = async (intent, billingDetails, address, mondrianDataUri
         mondrianDataUri,
       });
     }
-    await mondrianService.orderMondrian(mondrian.mondrianDataUri);
+    await mondrianService.orderMondrian(mondrian.mondrianDataUri, billingDetails, address, intent.payment_method);
     return {
       success: true,
     };

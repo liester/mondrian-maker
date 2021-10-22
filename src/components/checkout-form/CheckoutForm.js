@@ -183,9 +183,13 @@ const StripCheckoutForm = ({ onClose }) => {
         </div>
         <div className="ResultMessage">
           Thanks for ordering a personalized Mondrian.
-          Order Number:
-          {' '}
-          {paymentMethod.id}
+          <div>
+            Order Number:
+            {paymentMethod.id}
+          </div>
+          <div>
+            You should receive a confirmation email shortly.
+          </div>
         </div>
         <Button onClick={onClose}>
           Finish
