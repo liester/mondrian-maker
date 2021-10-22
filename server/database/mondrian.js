@@ -8,6 +8,7 @@ const Mondrian = new Schema({
   paymentSuccessful: String,
   paymentId: String,
   mondrianDataUri: String,
+  phoneNumber: String,
 }, { timestamps: true });
 
 module.exports = mongoose.model('mondrianorders', Mondrian);

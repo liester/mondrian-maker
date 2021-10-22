@@ -41,6 +41,7 @@ const generateResponse = async (intent, billingDetails, address, mondrianDataUri
         buyerAddress: `${address.line1} ${address.city}, ${address.state} ${address.postal_code}`,
         paymentSuccessful: true,
         paymentId: intent.payment_method,
+        phoneNumber: billingDetails.phone,
         mondrianDataUri,
       });
     }
