@@ -13,8 +13,7 @@ import SaveSvgAsPng from 'save-svg-as-png';
 import axios from '../../utils/axios';
 
 const isTest = process.env.NODE_ENV !== 'production';
-// const stripePublishableKey = isTest ? 'pk_test_wRF6cGM6D9azfHyN4dWcDXPG' : 'pk_live_hh3fhcrVUJck5Tiyu3eZfKEF';
-const stripePublishableKey = 'pk_test_wRF6cGM6D9azfHyN4dWcDXPG';
+const stripePublishableKey = isTest ? 'pk_test_wRF6cGM6D9azfHyN4dWcDXPG' : 'pk_live_hh3fhcrVUJck5Tiyu3eZfKEF';
 const stripePromise = loadStripe(stripePublishableKey);
 
 // eslint-disable-next-line react/prop-types
@@ -293,7 +292,7 @@ const StripCheckoutForm = ({ onClose }) => {
           </fieldset>
           {orderingError && <ErrorMessage>{orderingError}</ErrorMessage>}
           <SubmitButton processing={processing} error={orderingError} disabled={!stripe}>
-            Order $1
+            Order $14.99
           </SubmitButton>
         </form>
       </>
