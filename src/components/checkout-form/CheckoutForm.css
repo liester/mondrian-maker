@@ -121,7 +121,7 @@ button {
 }
 
 .ErrorMessage {
-    color: #fff;
+    color: red;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -130,7 +130,6 @@ button {
     margin-top: 0px;
     width: 100%;
     transform: translateY(-15px);
-    opacity: 0;
     animation: fade 150ms ease-out;
     animation-delay: 50ms;
     animation-fill-mode: forwards;
@@ -148,7 +147,6 @@ button {
 }
 
 .ResultTitle {
-    color: #fff;
     font-weight: 500;
     margin-bottom: 8px;
     font-size: 17px;

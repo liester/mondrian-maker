@@ -101,6 +101,7 @@ const StripCheckoutForm = ({ onClose }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState(null);
+  const [orderingError, setOrderingError] = useState();
   const [cardComplete, setCardComplete] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
@@ -134,6 +135,7 @@ const StripCheckoutForm = ({ onClose }) => {
   const handleServerResponse = async (response) => {
     if (response.error) {
       // Show error from server on payment form
+      setOrderingError(response.error);
     } else if (response.requires_action) {
       // Use Stripe.js to handle required card action
       stripe.handleCardAction(
@@ -187,7 +189,7 @@ const StripCheckoutForm = ({ onClose }) => {
     }
   };
 
-  return paymentMethod
+  return paymentMethod && !orderingError
     ? (
       <div className="Result">
         <div className="ResultTitle" role="alert">
@@ -299,8 +301,8 @@ const StripCheckoutForm = ({ onClose }) => {
               }}
             />
           </fieldset>
-          {error && <ErrorMessage>{error.message}</ErrorMessage>}
-          <SubmitButton processing={processing} error={error} disabled={!stripe}>
+          {orderingError && <ErrorMessage>{orderingError}</ErrorMessage>}
+          <SubmitButton processing={processing} error={orderingError} disabled={!stripe}>
             Order $4.99
           </SubmitButton>
         </form>
