@@ -11,3 +11,17 @@
   inset 0 1px 0 #e298d8;
   transform: scale(0.99);
 }
+
+.infoColumn {
+  width: 20%;
+  padding: 10px;
+}
+
+.card {
+  box-shadow: 0 8px 10px -6px cornflowerblue;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid cornflowerblue;
+  margin-bottom: 40px;
+  font-size: large;
+}

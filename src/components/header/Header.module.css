@@ -1,14 +1,8 @@
 .header {
   background-color: #007bff;
-  height: 40px;
-}
-
-.backButton {
-  cursor: pointer;
-}
-
-.userType {
-  padding-right: 20px;
+  height: 60px;
   color: white;
-  font-size: xx-large;
+  font-size: 45px;
+  font-family: 'Comfortaa', cursive;
+  border-bottom: 2px solid black;
 }
