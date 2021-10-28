@@ -44,7 +44,7 @@ const LandingPage = () => {
   };
 
   return (
-    <FlexContainer flex={1}>
+    <FlexContainer flex={1} style={{ flexWrap: 'wrap' }}>
       <FlexContainer className={styles.infoColumn} justifyContent="center" flexDirection="column">
         <div className={styles.card}>
           <div><b>Who is Piet Mondrian?</b></div>
@@ -55,7 +55,7 @@ const LandingPage = () => {
         <div className={styles.card}>
           <div><b>Why should I order a print?</b></div>
           {`Art is an interesting experience.  Some art fills us with feelings we can't understand while other art simply bores.
-          If you find yourself moved by something you see and what a print on quality card stock, order it.  
+          If you find yourself moved by something you see and want an 8.5 x 8.5 print on quality card stock, order it.  
           If you just want to capture it, feel free to download your Mondrian (for free) and do whatever you find fulfilling.`}
         </div>
       </FlexContainer>
